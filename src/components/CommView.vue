@@ -1,18 +1,18 @@
 <template>
-      <section class="community">
-      <div class="inner clearfix">
-        <div class="community-box">
-          <div class="community-top bg-line">
-            <h3>이룸소식</h3>
-            <a href="#" class="community-more">전체보기</a>
-          </div>
-          <div class="community-main">
-            <ul class="community-list data-info">
-              <li v-for="(item, index) in InfoData" :key="index">
-                <a :href="item.link">{{item.title}}</a>
-                <span>{{item.date}}</span>
-              </li>
-              <!-- <li>
+  <section class="community">
+    <div class="inner clearfix">
+      <div class="community-box">
+        <div class="community-top bg-line">
+          <h3>이룸소식</h3>
+          <a href="#" class="community-more">전체보기</a>
+        </div>
+        <div class="community-main">
+          <ul class="community-list data-info">
+            <li v-for="(item, index) in InfoData" :key="index">
+              <a :href="item.link">{{ item.title }}</a>
+              <span>{{ item.date }}</span>
+            </li>
+            <!-- <li>
                 <a href="#">6월 문화특강 [모스큐브&멘톨비누 만들기]</a>
                 <span>2022.06.27</span>
               </li>
@@ -28,21 +28,21 @@
                 <a href="#">내꿈공간(내 일을 꿈꾸는 청년창업공간) 대관 안내 </a>
                 <span>2022.06.02</span>
               </li> -->
-            </ul>
-          </div>
+          </ul>
         </div>
-        <div class="community-box">
-          <div class="community-top bg-line">
-            <h3>청년정책 새소식</h3>
-            <a href="#" class="community-more">전체보기</a>
-          </div>
-          <div class="community-main">
-            <ul class="community-list data-news">
-              <li v-for="(item, index) in NewsData" :key="index">
-                <a :href="item.link">{{item.title}}</a>
-                <span>{{item.date}}</span>
-              </li>
-<!-- 
+      </div>
+      <div class="community-box">
+        <div class="community-top bg-line">
+          <h3>청년정책 새소식</h3>
+          <a href="#" class="community-more">전체보기</a>
+        </div>
+        <div class="community-main">
+          <ul class="community-list data-news">
+            <li v-for="(item, index) in NewsData" :key="index">
+              <a :href="item.link">{{ item.title }}</a>
+              <span>{{ item.date }}</span>
+            </li>
+            <!-- 
               <li>
                 <a href="#">2022 경남 청년 라이브커머스 아카데미 참가자 모집 공고</a>
                 <span>2022.06.27</span>
@@ -59,34 +59,49 @@
                 <a href="#">2022년 거제시 청년 월세 지원사업 선정 결과</a>
                 <span>2022.06.08</span>
               </li> -->
-            </ul>
-          </div>
-        </div>
-        <div class="community-box calendar ">
-          <div class="community-top">
-            <h3>센터일정</h3>
-            <a href="#" class="community-more">전체보기</a>
-          </div>
-          <div class="community-main"></div>
+          </ul>
         </div>
       </div>
-    </section>
+      <div class="community-box calendar">
+        <div class="community-top">
+          <h3>센터일정</h3>
+          <a href="#" class="community-more">전체보기</a>
+        </div>
+        <div class="community-main" style="padding-top: 0">
+          <Calendar is-expanded :attributes="attrs" />
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import {useStore} from 'vuex';
-import {computed} from 'vue';
+import { useStore } from "vuex";
+import { computed } from "vue";
+import "v-calendar/dist/style.css";
+import { Calendar } from "v-calendar";
+
 export default {
-  setup(){
+  components: { Calendar },
+  setup() {
     const store = useStore();
     const InfoData = computed(() => store.getters.getInfoList);
     const NewsData = computed(() => store.getters.getNewsList);
-
-    return{
-      InfoData,NewsData
-    }
-  }
-}
+    const attrs = [
+      {
+        key: "today",
+        highlight: "red",
+        color: "white",
+        dates: new Date(),
+      },
+    ];
+    return {
+      InfoData,
+      NewsData,
+      attrs,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -96,7 +111,8 @@ export default {
   padding: 70px 0;
 }
 
-.community .inner {}
+.community .inner {
+}
 
 .community-box {
   position: relative;
@@ -110,8 +126,6 @@ export default {
   padding: 30px;
 }
 
-
-
 .calendar {
   width: 32%;
   margin-right: 0;
@@ -124,7 +138,7 @@ export default {
 }
 
 .bg-line {
-  background: url('@/assets/images/img_bg_line.png') repeat-x;
+  background: url("@/assets/images/img_bg_line.png") repeat-x;
   /* background-position: left bottom;  위랑 같은 말*/
   background-position: 0 100%;
 }
@@ -151,7 +165,7 @@ export default {
 }
 
 .community-more::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 11px;
@@ -162,7 +176,7 @@ export default {
 }
 
 .community-more::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 3px;
   top: 8px;
@@ -170,7 +184,6 @@ export default {
   width: 2px;
   height: 8px;
   background-color: #131313;
-
 }
 
 .community-main {
@@ -196,7 +209,6 @@ export default {
   border-bottom: 0;
 }
 
-
 .community-list li a {
   position: relative;
   display: block;
@@ -221,14 +233,17 @@ export default {
   color: #444;
 }
 
+.community-main div {
+  border: 0;
+}
+
 /* 커뮤니티 PC버전 */
 /* 커뮤니티 반응형 버전 */
-@media all and (max-width:1000px) {
+@media all and (max-width: 1000px) {
   .community {
     padding: 5vw 0;
     /* w 1400 h 700 */
   }
-
 
   .community-box:nth-child(1) {
     width: 100%;
@@ -247,7 +262,7 @@ export default {
   }
 }
 
-@media all and (max-width:640px) {
+@media all and (max-width: 640px) {
   .community-box:nth-child(2) {
     width: 100%;
     margin-right: 0;
